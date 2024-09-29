@@ -1,0 +1,45 @@
+server:
+  servlet:
+    context-path: /
+  port: 8080
+
+spring:
+  application:
+    name: eseapigateway
+  cloud:
+    gateway:
+      routes:
+        - id: eseecommerce
+          uri: http://host.docker.internal:8081
+          predicates:
+            - Path=/eseecommerce/** , /eseecommerce/v3/api-docs
+        - id: esestock
+          uri: http://host.docker.internal:8082
+          predicates:
+            - Path=/esestock/** , /esestock/v3/api-docs
+        - id: esecustomers
+          uri: http://host.docker.internal:8083
+          predicates:
+            - Path=/esecustomers/** , /esecustomers/v3/api-docs
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eseeureka:8761/eureka
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: ESE API Gateway
+      - url: /eseecommerce/v3/api-docs
+        name: ESE Ecommerce
+      - url: /esestock/v3/api-docs
+        name: ESE Stock
+      - url: /esecustomers/v3/api-docs
+        name: ESE Customers
