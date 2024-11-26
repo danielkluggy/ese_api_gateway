@@ -38,3 +38,13 @@ springdoc:
         name: ESE Stock
       - url: /esecustomers/v3/api-docs
         name: ESE Customers
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
